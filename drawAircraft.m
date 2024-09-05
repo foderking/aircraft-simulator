@@ -4,24 +4,18 @@ function drawAircraft(U)
     pn       = U(1);       % inertial North position     
     pe       = U(2);       % inertial East position
     pd       = U(3);           
-    u        = U(4);       
-    v        = U(5);       
-    w        = U(6);       
+    %u        = U(4);       
+    %v        = U(5);       
+    %w        = U(6);       
     phi      = U(7);       % roll angle         
     theta    = U(8);       % pitch angle     
     psi      = U(9);       % yaw angle     
-    p        = U(10);       % roll rate
-    q        = U(11);       % pitch rate     
-    r        = U(12);       % yaw rate    
-    t        = U(13);       % time
+    %p        = U(10);       % roll rate
+    %q        = U(11);       % pitch rate     
+    %r        = U(12);       % yaw rate    
+    t = U(13);
 
     persistent s_handle
-    n = pn + u*t;
-    e = pe + v*t;
-    d = pd + w*t;
-    phi = phi + p*t;
-    theta = theta + q*t;
-    psi = psi + r*t;
 
     [V, F] = getVertexFaces();
     if t==0
@@ -32,14 +26,14 @@ function drawAircraft(U)
         ylim([-20 20])
         zlim([-20 20])
         view(30,30)  % set the vieew angle for figure
-        s_handle = draw(V,F,n,e,d,phi,theta,psi,s_handle,t==0);
-        title('Spacecraft')
+        s_handle = draw(V,F,pn,pe,pd,phi,theta,psi,s_handle,t==0);
+        title('Aircraft')
         xlabel('East')
         ylabel('North')
         zlabel('-Down')
         hold on
     else
-        draw(V,F,n,e,d,phi,theta,psi,s_handle,t==0);
+        draw(V,F,pn,pe,pd,phi,theta,psi,s_handle,t==0);
     end
 
    
@@ -51,9 +45,6 @@ function handl = draw(V,F,pn,pe,pd,phi,theta,psi,handle,b)
     V = translate(V',pn,pe,pd);
     V = Rned2xyz*V;
 
-
-
-       
     if b
         handl = patch('Vertices',V','Faces',F,'FaceColor','red');
     else
